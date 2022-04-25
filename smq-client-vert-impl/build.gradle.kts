@@ -12,7 +12,8 @@ dependencies{
     kapt(libs.spring.configuration)
     api(project(":smq-client-core"))
 
-    implementation(libs.vertx.mqtt)
+    api(libs.vertx.kt)
+    api(libs.vertx.mqtt)
     implementation(libs.spring.boot.starter)
     implementation(libs.spring.configuration)
 }

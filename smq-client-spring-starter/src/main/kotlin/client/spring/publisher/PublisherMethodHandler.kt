@@ -13,7 +13,6 @@ import kotlin.reflect.full.*
 
 class PublisherMethodHandler(
     private val func: KFunction<*>,
-    private val encoderName: String,
     private val context: BeanFactory,
 ) {
 
@@ -34,13 +33,6 @@ class PublisherMethodHandler(
             }
     }
 
-
-    private val decoder: CodecBundle by lazy {
-        requireNotNull(context.getBean<MqCodecMappingHandler>().encoderProvider[encoderName]) {
-            "Encoder $encoderName not found"
-        }
-    }
-
     private val client: MqClient by lazy {
         requireNotNull(context.getBean()) { "MqClient not found" }
     }
@@ -48,7 +40,11 @@ class PublisherMethodHandler(
     private val parameter: List<FunctionParameter> = func.valueParameters.map {
         when {
             it.hasAnnotation<PathVariable>() -> VariableParameter(it.name!!)
-            it.hasAnnotation<MqEncoder>() -> OriginalParameter(it.name!!)
+            it.hasAnnotation<MqEncoder>() -> OriginalParameter(
+                it.name!!,
+                requireNotNull(context.getBean<MqCodecMappingHandler>().encoderProvider[it.findAnnotation<MqEncoder>()!!.name]) {
+                    "Encoder ${it.findAnnotation<MqEncoder>()!!.name} not found"
+                })
             else -> DefaultParameter(it.name!!)
         }
     }
@@ -65,7 +61,7 @@ class PublisherMethodHandler(
                 when (any) {
                     is VariableParameter -> context[any.name] = args[index]
                     is OriginalParameter -> {
-                        result = decoder.second.call(decoder.first, args[index])
+                        result = any.resolve(args[index])
                     }
                     is DefaultParameter -> result = args[index]
                 }
@@ -79,13 +75,18 @@ class PublisherMethodHandler(
 
 sealed interface FunctionParameter {
     val name: String
+
 }
 
-@JvmInline
-value class VariableParameter(override val name: String) : FunctionParameter
+class VariableParameter(override val name: String) : FunctionParameter {
 
-@JvmInline
-value class OriginalParameter(override val name: String) : FunctionParameter
+}
 
-@JvmInline
-value class DefaultParameter(override val name: String) : FunctionParameter
+class OriginalParameter(override val name: String, private val encoder: CodecBundle) : FunctionParameter {
+    fun resolve(args: Any) = encoder.second.call(encoder.first, args)
+
+}
+
+class DefaultParameter(override val name: String) : FunctionParameter {
+
+}

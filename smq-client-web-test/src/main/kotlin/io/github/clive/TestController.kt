@@ -6,7 +6,7 @@ import org.springframework.boot.*
 import org.springframework.web.bind.annotation.*
 
 @MqRouter
-class TestController(val client: VertxMqClient) : CommandLineRunner {
+class TestController(val client: VertxMqClient,val endpoint: TestEndpoint) : CommandLineRunner {
 
 
     @MqPath("test/{id}")
@@ -15,8 +15,16 @@ class TestController(val client: VertxMqClient) : CommandLineRunner {
     }
 
     override fun run(vararg args: String?) {
-        client.subs("test/2")
+        //client.subs("test/2")
+        endpoint.test(2, "hello")
     }
 
 
+}
+
+
+@MqEndpoint
+interface TestEndpoint {
+    @MqPath("hello/{id}")
+    fun test(@PathVariable id: Long, @MqEncoder(name = "R001") msg: String)
 }

@@ -19,12 +19,9 @@ class MqPublisher(
     fun instance(type: KClass<*>) = createProxy(type).apply {
         invokeHandler.target = this
         type.declaredMemberFunctions.filter(KFunction<*>::isPublisher).forEach { func ->
-            func.findAnnotation<MqEncoder>()?.let {
-                PublisherMethodHandler(func, it.name, context).also { handler -> invokeHandler[func] = handler }
-            }
+            PublisherMethodHandler(func, context).also { handler -> invokeHandler[func] = handler }
         }
     }
-
 
 
     @Suppress("UNCHECKED_CAST")
