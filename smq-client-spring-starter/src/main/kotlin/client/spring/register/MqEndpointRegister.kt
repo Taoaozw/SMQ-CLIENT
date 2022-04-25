@@ -1,7 +1,7 @@
 package client.spring.register
 
 import client.spring.annotation.*
-import client.spring.support.*
+import client.spring.publisher.*
 import org.springframework.beans.factory.*
 import org.springframework.beans.factory.annotation.*
 import org.springframework.beans.factory.config.*

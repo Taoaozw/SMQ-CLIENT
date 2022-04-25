@@ -1,7 +1,8 @@
-package client.spring.support
+package client.spring.publisher
 
 import client.spring.annotation.*
 import client.spring.extension.*
+import client.spring.support.*
 import org.springframework.beans.factory.*
 import java.lang.reflect.*
 import kotlin.reflect.*

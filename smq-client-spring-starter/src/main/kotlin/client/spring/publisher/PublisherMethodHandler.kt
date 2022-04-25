@@ -1,9 +1,10 @@
-package client.spring.support
+package client.spring.publisher
 
 
 import client.spring.annotation.*
 import client.spring.exception.*
 import client.spring.extension.*
+import client.spring.support.*
 import org.springframework.beans.factory.*
 import org.springframework.web.bind.annotation.*
 import smq.client.core.*

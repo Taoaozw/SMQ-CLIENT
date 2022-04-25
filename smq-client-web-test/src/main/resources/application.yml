@@ -1,0 +1,11 @@
+server:
+  port: 8065
+
+vertx:
+  mqtt:
+    port: 1883
+    client-id: hello-world
+    username: micl
+    password: micl
+    cleanSession: true
+    host: 110.42.172.167

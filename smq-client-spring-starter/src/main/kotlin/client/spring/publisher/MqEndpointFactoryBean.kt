@@ -1,4 +1,4 @@
-package client.spring.support
+package client.spring.publisher
 
 import org.springframework.beans.factory.*
 import org.springframework.context.*

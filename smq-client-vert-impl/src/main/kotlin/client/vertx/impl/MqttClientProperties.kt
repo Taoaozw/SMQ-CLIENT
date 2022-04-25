@@ -1,19 +1,23 @@
 package client.vertx.impl
 
-import org.springframework.boot.context.properties.ConfigurationProperties
+import org.springframework.boot.context.properties.*
+import smq.client.core.*
 
 
+@ConstructorBinding
 @ConfigurationProperties(prefix = "vertx.mqtt")
-class MqttClientProperties {
+data class MqttClientProperties(
 
-    private var port: Int = 0
+    override val port: Int,
 
-    private var host: String? = null
+    override val host: String,
 
-    private var username: String? = null
+    override val username: String? = null,
 
-    private var password: String? = null
+    override val password: String? = null,
 
-    private var clientId: String? = null
+    override val clientId: String? = null,
 
-}
+    override val cleanSession: Boolean = true,
+
+    ) : MqttProperties

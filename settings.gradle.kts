@@ -50,7 +50,7 @@ dependencyResolutionManagement {
             library("spring-boot-starter", "org.springframework.boot", "spring-boot-starter").withoutVersion()
             library("spring-boot-starter-test", "org.springframework.boot", "spring-boot-starter-test").withoutVersion()
             library("spring-web", "org.springframework", "spring-web").withoutVersion()
-
+            library("spring-configuration", "org.springframework.boot", "spring-boot-configuration-processor").withoutVersion()
             bundle(
                 "test",
                 listOf(

@@ -1,0 +1,37 @@
+{
+  "groups": [
+  ],
+  "properties": [
+    {
+      "name": "vertx.mqtt.client-id",
+      "type": "java.lang.String",
+      "description": " The client id to use when connecting to the MQTT broker."
+    },
+    {
+      "name": "vertx.mqtt.host",
+      "type": "java.lang.String",
+      "description": " The hostname of the MQTT server."
+    },
+    {
+      "name": "vertx.mqtt.port",
+      "type": "java.lang.Integer",
+      "description": " The port of the MQTT server."
+    },
+    {
+      "name": "vertx.mqtt.username",
+      "type": "java.lang.String",
+      "description": " The username to use when connecting to the MQTT server."
+    },
+    {
+      "name": "vertx.mqtt.password",
+      "type": "java.lang.String",
+      "description": " The password to use when connecting to the MQTT server."
+    },
+    {
+      "name": "vertx.mqtt.cleanSession",
+      "type": "java.lang.Boolean",
+      "description": " Whether to use a clean session or not."
+    }
+  ],
+  "hints": []
+}
