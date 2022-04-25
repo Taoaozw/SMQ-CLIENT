@@ -18,7 +18,10 @@ import java.lang.reflect.*
  * AbstractHandlerMethodMapping
  *
  */
-class MqttRequestMappingHandler(private val register: RequestMappingCache) : InitializingBean, ApplicationContextAware {
+class MqttRequestMappingHandler(
+    private val codec: MqCodecMappingHandler,
+    private val mappingCache: RequestMappingCache
+) : InitializingBean, ApplicationContextAware {
 
     private lateinit var context: ApplicationContext
 
@@ -45,7 +48,14 @@ class MqttRequestMappingHandler(private val register: RequestMappingCache) : Ini
                 this,
                 MethodIntrospector.MetadataLookup { getMappingForMethod(it, handlerType) }
             ).forEach { (m, info) ->
-                info?.let { register.register(it, this, AopUtils.selectInvocableMethod(m, this)) }
+                info?.let {
+                    mappingCache.register(
+                        it,
+                        this,
+                        AopUtils.selectInvocableMethod(m, this),
+                        codec.decoderProvider
+                    )
+                }
             }
         }
     }

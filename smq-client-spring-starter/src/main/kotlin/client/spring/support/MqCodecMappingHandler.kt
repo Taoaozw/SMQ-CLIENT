@@ -4,6 +4,7 @@ import client.spring.annotation.*
 import client.spring.extension.*
 import org.springframework.beans.factory.*
 import org.springframework.context.*
+import java.lang.invoke.MethodHandles
 import kotlin.reflect.*
 import kotlin.reflect.full.*
 
@@ -17,6 +18,7 @@ class MqCodecMappingHandler(context: ApplicationContext) {
     val decoderProvider: Map<String, CodecBundle>
 
     init {
+
         context.getBeansWithAnnotation<MqCoderProvider>().values.flatMap { provider ->
             provider::class.declaredMemberFunctions.mapNotNull { processEncoder(it, provider) }
         }.toMap().also { encoderProvider = it }

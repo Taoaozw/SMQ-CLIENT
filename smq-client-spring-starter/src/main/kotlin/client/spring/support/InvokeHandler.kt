@@ -13,7 +13,7 @@ class InvokeHandler(
 
     @EventListener(value = [SmqPublishMessage::class])
     fun request(msg: SmqPublishMessage) = register[msg.topic].apply {
-        invoke(context, args(msg, register.getPathVariable(msg.topic, this.path), codec.decoderProvider))
+        invoke(context, args(msg, register.getPathVariable(msg.topic, this.path)))
     }
 
 

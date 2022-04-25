@@ -17,7 +17,8 @@ class SmqConfiguration {
     fun mqCodecMappingHandler(context: ApplicationContext) = MqCodecMappingHandler(context)
 
     @Bean
-    fun mqRequestMappingHandler(mappingCache: RequestMappingCache) = MqttRequestMappingHandler(mappingCache)
+    fun mqRequestMappingHandler(mappingCache: RequestMappingCache, codec: MqCodecMappingHandler) =
+        MqttRequestMappingHandler(codec, mappingCache)
 
     @Bean
     fun invokerHandler(mappingCache: RequestMappingCache, context: ApplicationContext, codec: MqCodecMappingHandler) =
